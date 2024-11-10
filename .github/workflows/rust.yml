@@ -31,7 +31,7 @@ jobs:
 
       - name: Make private key file and build
         run: |
-          cargo appimage
+          /home/david/.cargo/bin/cargo appimage
 
       - name: Temporarily Save File
         uses: actions/upload-artifact@v4
@@ -41,7 +41,7 @@ jobs:
           retention-days: 1
       - name: cleanup
         run: |
-          cargo clean
+          /home/david/.cargo/bin/cargo clean
 
   publish_release:
     name: Publish Files
