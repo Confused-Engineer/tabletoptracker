@@ -11,7 +11,7 @@ winres = "0.1"
 static_vcruntime = "2.0"
 
 [dependencies]
-davids-awesome-library = {path = "../davids-awesome-library"}
+davids-awesome-library = {git = "https://github.com/Confused-Engineer/davids-awesome-library.git"}
 
 eframe = { version = "0.28.1" , features = [ "default", "persistence"]}
 env_logger = { version = "0.10", default-features = false, features = [
