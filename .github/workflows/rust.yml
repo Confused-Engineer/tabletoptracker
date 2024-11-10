@@ -19,7 +19,10 @@ jobs:
           name: exe
           path: ./target/release/tabletoptracker.exe
           retention-days: 1
-
+      - name: cleanup
+        run: |
+          cargo clean
+          
   build_linux_appimage:
     name: Rust Build Linux AppImage
     runs-on: linux
@@ -36,6 +39,9 @@ jobs:
           name: AppImage
           path: ./target/appimage/tabletoptracker.AppImage
           retention-days: 1
+      - name: cleanup
+        run: |
+          cargo clean
 
   publish_release:
     name: Publish Files
