@@ -1,0 +1,48 @@
+[package]
+name = "tabletoptracker"
+version = "0.1.0"
+edition = "2021"
+build = "src/build.rs"
+
+
+
+[build-dependencies]
+winres = "0.1"
+static_vcruntime = "2.0"
+
+[dependencies]
+davids-awesome-library = {path = "../davids-awesome-library"}
+
+eframe = { version = "0.28.1" , features = [ "default", "persistence"]}
+env_logger = { version = "0.10", default-features = false, features = [
+    "auto-color",
+    "humantime",
+] }
+serde = { version = "1", features = ["derive"] }
+egui_extras = { version = "0.28.1", features = ["all_loaders"] }
+image = { version = "0.25", features = ["jpeg", "png"] }
+rand = "0.8.5"
+
+[profile.release]
+lto = "fat"
+strip = "symbols"
+codegen-units = 1
+
+
+
+[package.metadata.bundle]
+name = "TableTop Tracker"
+identifier = "com.confusedengineer.tabletoptracker"
+icon = ["assets/icon-256.png"]
+version = "0.9.1"
+#resources = ["assets", "images/**/*.png", "secrets/public_key.txt"]
+copyright = "Copyright (c) Confused Engineer 2024. All rights reserved."
+category = "Developer Tool"
+short_description = "Record Table Top Games."
+long_description = """
+This tool is meant to keep track of table top games
+including players, shops, dice rolling and roll history.
+"""
+#deb_depends = ["libgl1-mesa-glx", "libsdl2-2.0-0 (>= 2.0.5)"]
+#osx_frameworks = ["SDL2"]
+#osx_url_schemes = ["com.doe.exampleapplication"]

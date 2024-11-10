@@ -1,0 +1,62 @@
+on: [push]
+
+name: Rust-Release-Nightly
+
+jobs:
+  build_windows_exe:
+    name: Rust Build Windows EXE
+    runs-on: windows
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cargo Build
+        run: |
+          cargo build --release
+
+      - name: Temporarily Save File
+        uses: actions/upload-artifact@v4
+        with:
+          name: exe
+          path: ./target/release/tabletoptracker.exe
+          retention-days: 1
+
+  build_linux_appimage:
+    name: Rust Build Linux AppImage
+    runs-on: linux
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Make private key file and build
+        run: |
+          cargo appimage
+
+      - name: Temporarily Save File
+        uses: actions/upload-artifact@v4
+        with:
+          name: AppImage
+          path: ./target/appimage/tabletoptracker.AppImage
+          retention-days: 1
+
+  publish_release:
+    name: Publish Files
+    runs-on: windows
+    needs: ["build_windows_exe","build_linux_appimage"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Get Files
+        uses: actions/download-artifact@v4
+        with:
+          path: ./artifacts
+          merge-multiple: true
+
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "nightly"
+          prerelease: true
+          title: "Dev Build"
+          files: |
+            ./artifacts/tabletoptracker.AppImage
+            ./artifacts/tabletoptracker.exe
